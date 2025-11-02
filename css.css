@@ -34,15 +34,6 @@ body {
   z-index: -1;
 }
 
-
-.overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  z-index: -1;
-}
-
 /* === KHỐI GIỮA === */
 .container {
   margin-top: 60px;
@@ -58,12 +49,28 @@ body {
   border: 2px solid #fff;
   object-fit: cover;
 }
+/* === HIỆU ỨNG NEON CHẠY ĐỎ - TÍM === */
+@keyframes neonRedPurple {
+  0%, 100% {
+    color: #ff2b2b;
+    text-shadow:
+      0 0 5px #ff0000,
+      0 0 15px #ff0000,
+      0 0 30px #ff0000,
+      0 0 50px #ff0000;
+  }
+  50% {
+    color: #b400ff;
+    text-shadow:
+      0 0 5px #b400ff,
+      0 0 15px #b400ff,
+      0 0 30px #b400ff,
+      0 0 50px #b400ff;
+  }
+}
 
 h1 {
-  font-size: 26px;
-  margin: 10px 0;
-  color: #ff2b2b;
-  text-shadow: 0 0 5px #ff0000, 0 0 15px #ff0000, 0 0 30px #ff0000;
+  animation: neonRedPurple 2s infinite alternate;
 }
 
 .location {
@@ -213,5 +220,55 @@ h1 {
 @media (max-width: 600px) {
   .product-card { flex: 0 0 90%; }
 }
+/* === HIỆU ỨNG TUYẾT RƠI === */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: #fff;
+  font-size: 1em;
+  pointer-events: none;
+  z-index: 9999;
+  animation: fall linear infinite;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+}
 
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0.5;
+  }
+}
+/* === KHUNG NEON CHỦ ĐỀ MÙA ĐÔNG CHO AVATAR === */
+.avatar {
+  position: relative;
+  border: 3px solid #aee4ff;
+  box-shadow:
+    0 0 6px #aee4ff,
+    0 0 15px #aee4ff,
+    0 0 30px #6bd8ff,
+    0 0 45px #c3f7ff;
+  animation: winterNeon 4s ease-in-out infinite;
+}
 
+@keyframes winterNeon {
+  0%, 100% {
+    box-shadow:
+      0 0 6px #aee4ff,
+      0 0 15px #aee4ff,
+      0 0 30px #6bd8ff,
+      0 0 45px #c3f7ff;
+    border-color: #d9f9ff;
+  }
+  50% {
+    box-shadow:
+      0 0 8px #b5ecff,
+      0 0 20px #7be0ff,
+      0 0 40px #aee4ff,
+      0 0 60px #e6fcff;
+    border-color: #ffffff;
+  }
+}
