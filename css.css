@@ -653,3 +653,15 @@ html, body {
   transition: all 0.3s ease;
   transform-style: preserve-3d;
 }
+.avatar, h1, .stats, .socials, .product-carousel {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.9s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
