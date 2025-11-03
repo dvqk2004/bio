@@ -15,7 +15,7 @@
 
   <!-- THÔNG TIN CÁ NHÂN -->
   <div class="container">
-    <img src="images/IMG_2118.jpg" alt="Avatar" class="avatar" />
+    <img src="images/shisui1.gif" alt="Avatar" class="avatar" />
 <h1 class="owner-title">
   <span class="crown">👑</span>
   <span class="owner-white">OWNER:</span>
@@ -28,15 +28,15 @@
     </div>
 <div class="stats neon-box">
   <div class="stat-item">
-    <span class="stat-number">9,326</span>
+    <span class="stat-number">9327</span>
     <span class="stat-label">Followers</span>
   </div>
   <div class="stat-item">
-    <span class="stat-number">484.1K</span>
+    <span class="stat-number">484.300</span>
     <span class="stat-label">Hearts</span>
   </div>
   <div class="stat-item">
-    <span class="stat-number">947,6K</span>
+    <span class="stat-number">30</span>
     <span class="stat-label">Shares</span>
   </div>
 </div>
@@ -131,5 +131,78 @@
 
     window.addEventListener("load", autoSlide);
   </script>
+<script>
+async function updateTikTokStats() {
+  const secUid = "MS4wLjABAAAAp8JffUO2aO0tBTu0w4Cff2yKkOM2zPjkc297tIX1ghqNT9wOuDFuW7YGOBaltllQ";
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "fa9d6cd133mshff09df6a4004c04p1d4726jsn89c74ea0a3bd",
+      "X-RapidAPI-Host": "tiktok-api23.p.rapidapi.com"
+    }
+  };
+
+  // 🚀 Chạy hiệu ứng xoay ngay khi web load (trước khi có dữ liệu thật)
+  const numbers = document.querySelectorAll(".stat-number");
+  numbers.forEach(el => preAnimate(el));
+
+  try {
+    const res = await fetch(`https://tiktok-api23.p.rapidapi.com/api/user/info?uniqueId=dvqk4`, options);
+    const data = await res.json();
+    console.log("Dữ liệu TikTok:", data);
+
+    if (data && data.userInfo && data.userInfo.stats) {
+      const stats = data.userInfo.stats;
+      animateNumber(document.querySelector(".stat-item:nth-child(1) .stat-number"), stats.followerCount);
+      animateNumber(document.querySelector(".stat-item:nth-child(2) .stat-number"), stats.heart);
+      animateNumber(document.querySelector(".stat-item:nth-child(3) .stat-number"), stats.followingCount);
+    } else {
+      console.warn("Không tìm thấy dữ liệu người dùng:", data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+}
+
+// 🔹 Hiệu ứng đếm từ 0 đến số thật (có xoay nhẹ)
+function animateNumber(element, endValue) {
+  let startValue = 0;
+  const duration = 2000;
+  const frameRate = 60;
+  const totalFrames = Math.round(duration / (1000 / frameRate));
+  let frame = 0;
+
+  const counter = setInterval(() => {
+    frame++;
+    const progress = frame / totalFrames;
+    const value = Math.floor(progress * endValue);
+    element.textContent = value.toLocaleString();
+
+    // Xoay nhẹ 3D (giữ số, không mờ)
+    element.style.transform = `rotateX(${Math.sin(progress * Math.PI) * 15}deg)`;
+    element.style.transition = "transform 0.1s linear";
+
+    if (frame >= totalFrames) {
+      clearInterval(counter);
+      element.textContent = endValue.toLocaleString();
+      element.style.transform = "rotateX(0deg)";
+    }
+  }, 1000 / frameRate);
+}
+
+// 🔹 Hiệu ứng quay nhẹ lúc chờ API (giả lập tải dữ liệu)
+function preAnimate(element) {
+  element.textContent = "0";
+  element.style.animation = "spinNumber 1s linear infinite";
+}
+
+// 🔹 Dừng hiệu ứng quay sau khi có dữ liệu thật
+function stopPreAnimate(element) {
+  element.style.animation = "none";
+}
+
+updateTikTokStats();
+</script>
+
 </body>
 </html>
