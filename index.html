@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đinh Việt Quốc Khánh | Bio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -275,6 +275,31 @@ function updatePlayTime() {
 setInterval(updatePlayTime, 1000);
 updatePlayTime();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Lấy thời điểm bắt đầu từ localStorage (nếu chưa có thì lưu mới)
+  let startTime = localStorage.getItem("gameStartTime");
 
+  if (!startTime) {
+    startTime = Date.now();
+    localStorage.setItem("gameStartTime", startTime);
+  }
+
+  function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const hours = Math.floor(elapsed / 3600);
+    const minutes = Math.floor((elapsed % 3600) / 60);
+    const seconds = elapsed % 60;
+
+    document.getElementById("timer").textContent =
+      `${hours.toString().padStart(2, '0')}:` +
+      `${minutes.toString().padStart(2, '0')}:` +
+      `${seconds.toString().padStart(2, '0')}`;
+  }
+
+  setInterval(updateTimer, 1000);
+  updateTimer();
+});
+</script>
 </body>
 </html>
