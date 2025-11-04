@@ -1,39 +1,37 @@
 body {
-  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #000; /* fallback để nền đen tự nhiên, không bị vệt */
+  min-height: 100vh;
   color: #fff;
-  text-align: center;
-  background: url("muanho.gif") no-repeat center center fixed;
-  background-size: cover;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
 }
 
-/* === GIF NỀN === */
+/* Lớp gif nền */
 .gif-bg {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: url("muanho.gif") no-repeat center center / cover;
+  height: 100vh;
+  background: url("muanho.gif") center center / cover no-repeat;
+  background-attachment: scroll; /* tránh lỗi trên mobile */
   z-index: -2;
 }
 
-/* Lớp phủ mờ nhẹ để nội dung nổi hơn */
+/* Overlay mờ phủ lên nền */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
   z-index: -1;
+  pointer-events: none;
 }
-
 /* === KHỐI GIỮA === */
 .container {
   margin-top: 60px;
@@ -236,38 +234,46 @@ h1 {
 
 /* === CAROUSEL === */
 .product-carousel {
-  position: relative;
-  max-width: 900px;
   width: 100%;
+  max-width: 850px;
+  margin: 0 auto 60px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 70px;
+  position: relative;
+  gap: 15px;
 }
 
 .product-track {
   display: flex;
-  gap: 20px;
+  align-items: center;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding: 10px;
+  gap: 20px;
+  padding: 10px 0;
   scrollbar-width: none;
-  -ms-overflow-style: none;
+  justify-content: flex-start; /* ✅ Cho phép trượt */
 }
-.product-track::-webkit-scrollbar { display: none; }
+.product-track::-webkit-scrollbar {
+  display: none;
+}
+
 
 .product-card {
-  flex: 0 0 70%;
-  scroll-snap-align: center;
+  flex: 0 0 auto;
+  scroll-snap-align: center; /* 👈 Căn giữa từng card */
   background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.3);
   border-radius: 10px;
-  border: 1.5px solid rgba(255,255,255,0.25);
   padding: 10px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease;
+  width: 260px; /* 👈 Card có kích thước cố định để căn giữa chuẩn */
+  margin: 0 auto;
+}
+.product-card:hover {
+  transform: scale(1.03);
 }
 
 .product-card img {
@@ -318,19 +324,26 @@ h1 {
 
 /* === BUTTON TRÁI / PHẢI === */
 .arrow {
-  background: linear-gradient(145deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
+  background: rgba(255,255,255,0.15);
   border: 1px solid rgba(255,255,255,0.3);
   color: #fff;
   font-size: 22px;
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  backdrop-filter: blur(4px);
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
+  flex-shrink: 0;
 }
-
+.arrow:hover {
+  transform: scale(1.1);
+}
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .product-card {
+    width: 85%;
+  }
+}
 .arrow:hover {
   background: linear-gradient(145deg, rgba(255,255,255,0.45), rgba(255,255,255,0.25));
   transform: scale(1.1) rotate(5deg);
@@ -652,4 +665,74 @@ html, body {
     0 0 40px #ffffff;
   transition: all 0.3s ease;
   transform-style: preserve-3d;
+}
+/* === FADE-IN TOÀN TRANG === */
+body {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  will-change: opacity, transform;
+}
+
+/* Khi web load xong */
+body.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* (tuỳ chọn) thêm animation cho từng phần tử xuất hiện mượt hơn */
+.fade-in {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
+}
+/* === MẠNG XÃ HỘI DẠNG KHỐI === */
+.social-blocks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 25px 0 40px;
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+}
+
+.social-card img {
+  width: 26px;
+  height: 26px;
+  margin-bottom: 6px;
+  filter: brightness(1.2);
+}
+
+.social-card span {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.social-card:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.35);
+  border-color: rgba(255,255,255,0.4);
 }
