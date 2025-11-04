@@ -1,5 +1,6 @@
 export default {
   build: {
-    sourcemap: false
+    sourcemap: false,
+    minify: 'terser'
   }
 }
