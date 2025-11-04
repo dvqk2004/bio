@@ -1,12 +1,16 @@
-// api/proxy.js
 export default async function handler(req, res) {
-  const q = req.query.q || "";
-  const KEY = process.env.MY_API_KEY; // đặt trên Vercel Dashboard
-  const r = await fetch(`https://third.party.example/data?q=${encodeURIComponent(q)}`, {
-    headers: {
-      'Authorization': `Bearer ${KEY}` // hoặc query param tùy API
-    }
-  });
-  const data = await r.json();
-  res.status(200).json(data);
+  const query = req.query.q || ""; // tham số client gửi lên
+  const API_KEY = process.env.MY_API_KEY; // ẩn trong server
+
+  try {
+    const r = await fetch(`https://api.example.com/search?q=${query}`, {
+      headers: {
+        "Authorization": `Bearer ${API_KEY}`,
+      },
+    });
+    const data = await r.json();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
 }
