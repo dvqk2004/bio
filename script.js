@@ -9,7 +9,7 @@ if(window.location.hostname !== "qkhanh.bio"){
 // ⚠️ Thay "qkhanhnee" bằng username TikTok của bạn
 // === TikTok Stats Auto Update + Neon Counter Animation ===
 // Thay "qkhanhnee" bằng username TikTok thật của bạn
-const TIKTOK_USERNAME = "qkhanhnee";
+const TIKTOK_USERNAME = "dvqk4";
 
 // Hàm hiệu ứng đếm số mượt
 function animateNumber(el, target) {
@@ -53,3 +53,4 @@ fetchTikTokStats();
 
 // Cập nhật lại mỗi 10 phút
 setInterval(fetchTikTokStats, 10 * 60 * 1000);
+
