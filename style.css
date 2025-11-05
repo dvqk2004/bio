@@ -819,7 +819,7 @@ html, body {
 /* FIX CHO MOBILE - tránh lỗi trắng/đen cuối trang */
 @media (max-width: 767px) {
   body {
-    background: url("muanho.gif") center top / cover no-repeat;
+    background: url("storm.gif") center top / cover no-repeat;
     background-attachment: scroll !important;
     background-size: cover !important;
     background-position: center center;
@@ -889,7 +889,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("muanho.gif") center center / cover no-repeat fixed;
+  background: url("storm.gif") center center / cover no-repeat fixed;
   z-index: -3;
   animation: fadeInGlobal 2s ease forwards;
 }
@@ -914,7 +914,7 @@ html, body {
   }
 
   body {
-    background: url("muanho.gif") center top / cover no-repeat;
+    background: url("storm.gif") center top / cover no-repeat;
     background-attachment: scroll !important;
     background-size: cover !important;
     background-position: center top !important;
@@ -1019,6 +1019,7 @@ body {
   font-weight: 400;
   letter-spacing: 0.3px;
 }
+
 
 
 
