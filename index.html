@@ -285,6 +285,31 @@ document.addEventListener('keydown', e => {
 });
 (function(){ const allowed=['qkhanh.bio','dvqk2004.github.io']; if(!allowed.includes(location.hostname)) { document.documentElement.innerHTML='<h1>Unauthorized copy detected</h1>'; }})();
 </script>
+<script>
+async function updateTikTokStats() {
+  try {
+    const res = await fetch("/api/tiktok?username=dvqk4");
+    const data = await res.json();
+
+    if (!data || (!data.followers && !data.hearts)) {
+      console.warn("Không có dữ liệu TikTok:", data);
+      return;
+    }
+
+    document.querySelector(".tiktok-followers .stat-number").textContent =
+      data.followers.toLocaleString();
+    document.querySelector(".tiktok-likes .stat-number").textContent =
+      data.hearts.toLocaleString();
+
+    console.log("Cập nhật TikTok:", data);
+  } catch (e) {
+    console.error("API error:", e);
+  }
+}
+
+updateTikTokStats();
+</script>
+
 <footer class="copyright">
   © 2025 <span>Đinh Việt Quốc Khánh</span>. All Rights Reserved.
 </footer>
