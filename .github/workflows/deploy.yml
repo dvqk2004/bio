@@ -1,8 +1,29 @@
-- name: Install dependencies
-  run: |
-    if [ -f package.json ]; then
-      echo "package.json found — running npm ci"
-      npm ci
-    else
-      echo "No package.json — skipping npm install"
-    fi
+name: build-and-deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then
+            echo "package.json found — running npm ci"
+            npm ci
+          else
+            echo "No package.json — skipping npm install"
+          fi
+
+      - name: List project files
+        run: ls -la
+
+      - name: Done
+        run: echo "✅ Build step completed successfully"
