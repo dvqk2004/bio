@@ -982,3 +982,41 @@ body {
     transform: translateY(0);
   }
 }
+/* Nhỏ gọn cả dòng contact */
+.small-contact {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 🌈 Hiệu ứng 7 màu chạy liên tục */
+.rainbow-text {
+  background: linear-gradient(90deg, 
+    #ff0000, #ff7f00, #ffff00, #00ff00, 
+    #0000ff, #4b0082, #8b00ff, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 400%;
+  animation: rainbowMove 5s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0%; }
+  100% { background-position: 400%; }
+}
+
+/* 🌟 Symbol sáng hơn và phát glow */
+.neon-symbol {
+  text-shadow:
+    0 0 4px #fff,
+    0 0 10px #ff66cc,
+    0 0 20px #00ffff;
+}
+
+/* chữ NFA nhỏ hơn, nhẹ hơn */
+.contact-sub {
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
