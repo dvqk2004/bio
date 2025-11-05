@@ -10,28 +10,47 @@ if(window.location.hostname !== "qkhanh.bio"){
 // === TikTok Stats Auto Update + Neon Counter Animation ===
 // Thay "qkhanhnee" bằng username TikTok thật của bạn
 // === TikTok Stats Auto Update (dùng TikWM API) ===
+// Client: gọi API serverless của bạn và animate số
+const API_BASE = "/api/tiktok"; // nếu host khác, đổi thành full URL: https://bio-3gp5.vercel.app/api/tiktok
 const TIKTOK_USERNAME = "dvqk4";
 
-async function fetchTikTokStats() {
+function animateNumber(el, target, duration = 1000) {
+  const start = parseInt(el.textContent.replace(/\D/g, "")) || 0;
+  const startTime = performance.now();
+  function frame(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const value = Math.floor(start + (target - start) * progress);
+    el.textContent = value.toLocaleString();
+    if (progress < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+async function loadTikTokToPage() {
   try {
-    const response = await fetch(`https://www.tikwm.com/api/user/info?unique_id=${TIKTOK_USERNAME}`);
-    const data = await response.json();
-
-    if (data && data.data && data.data.user) {
-      const user = data.data.user;
-
-      // Hiển thị followers và hearts
-      document.getElementById("tiktok-followers").textContent =
-        user.follower_count.toLocaleString();
-      document.getElementById("tiktok-likes").textContent =
-        user.total_favorited.toLocaleString();
-    } else {
-      console.warn("Không lấy được dữ liệu TikTok:", data);
+    const res = await fetch(`${API_BASE}?username=${encodeURIComponent(TIKTOK_USERNAME)}`);
+    if (!res.ok) {
+      console.warn("API trả lỗi", res.status);
+      return;
     }
-  } catch (err) {
-    console.error("Lỗi khi gọi API TikTok:", err);
+    const data = await res.json();
+    // nếu có dữ liệu
+    if (data && typeof data.followers === "number") {
+      const fEl = document.getElementById("tiktok-followers");
+      const hEl = document.getElementById("tiktok-likes");
+      if (fEl) animateNumber(fEl, data.followers, 1200);
+      if (hEl) animateNumber(hEl, data.hearts || 0, 1200);
+    } else {
+      console.warn("Dữ liệu API không hợp lệ:", data);
+    }
+  } catch (e) {
+    console.error("Lỗi khi gọi API TikTok (client):", e);
   }
 }
 
-fetchTikTokStats();
-setInterval(fetchTikTokStats, 10 * 60 * 1000);
+// gọi khi load
+document.addEventListener("DOMContentLoaded", () => {
+  loadTikTokToPage();
+  // cập nhật định kỳ (10 phút)
+  setInterval(loadTikTokToPage, 10 * 60 * 1000);
+});
