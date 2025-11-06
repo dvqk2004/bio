@@ -63,12 +63,7 @@ async function loadTikTokStats() {
   }
 }
 
-// 🔁 Cập nhật định kỳ mỗi 10 phút
-document.addEventListener("DOMContentLoaded", () => {
-  loadTikTokStats();
-  setInterval(loadTikTokStats, 10 * 60 * 1000);
-});
-const API_BASE = "https://dvqk2004.github.io/bio/"; // thay bằng domain Vercel của bạn
+const API_BASE = "https://bio-3gp5-git-main-dvqk2004s-projects.vercel.app/api/tiktok";
 const TIKTOK_USERNAME = "dvqk4";
 
 async function loadTikTokStats() {
@@ -76,17 +71,18 @@ async function loadTikTokStats() {
     const res = await fetch(`${API_BASE}?username=${TIKTOK_USERNAME}`);
     const data = await res.json();
 
-    if (data.followers) {
+    if (data.followers !== undefined && data.hearts !== undefined) {
       document.getElementById("tiktok-followers").textContent = data.followers.toLocaleString();
       document.getElementById("tiktok-likes").textContent = data.hearts.toLocaleString();
-      console.log("✅ Fetched from server:", data);
+      console.log("✅ TikTok API loaded:", data);
     } else {
-      console.warn("⚠️ API không trả về followers/hearts:", data);
+      console.warn("⚠️ API không trả dữ liệu đúng:", data);
     }
   } catch (err) {
-    console.error("❌ Lỗi khi fetch API:", err);
+    console.error("❌ Lỗi khi fetch TikTok API:", err);
   }
 }
 
 document.addEventListener("DOMContentLoaded", loadTikTokStats);
+
 
