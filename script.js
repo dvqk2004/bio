@@ -68,3 +68,25 @@ document.addEventListener("DOMContentLoaded", () => {
   loadTikTokStats();
   setInterval(loadTikTokStats, 10 * 60 * 1000);
 });
+const API_BASE = "https://dvqk2004.github.io/bio/"; // thay bằng domain Vercel của bạn
+const TIKTOK_USERNAME = "dvqk4";
+
+async function loadTikTokStats() {
+  try {
+    const res = await fetch(`${API_BASE}?username=${TIKTOK_USERNAME}`);
+    const data = await res.json();
+
+    if (data.followers) {
+      document.getElementById("tiktok-followers").textContent = data.followers.toLocaleString();
+      document.getElementById("tiktok-likes").textContent = data.hearts.toLocaleString();
+      console.log("✅ Fetched from server:", data);
+    } else {
+      console.warn("⚠️ API không trả về followers/hearts:", data);
+    }
+  } catch (err) {
+    console.error("❌ Lỗi khi fetch API:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadTikTokStats);
+
