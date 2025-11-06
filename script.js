@@ -103,18 +103,12 @@ async function loadTikTokStats() {
     console.error("Error loading TikTok stats (client):", e);
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadTikTokStats();
-  setInterval(loadTikTokStats, 10 * 60 * 1000); // refresh every 10 minutes
-});
-fetch("/api/tiktok?username=dvqk4")
-
-const url = 'https://tiktok-scraper7.p.rapidapi.com/user/story?user_id=7357492073123087392';
+// === TikTok Stats Auto Update (RapidAPI) ===
+const url = 'https://tiktok-scraper7.p.rapidapi.com/user/story?user_id=7357492073123087392'; // username TikTok
 const options = {
   method: 'GET',
   headers: {
-    'x-rapidapi-key': 'd4f67352f9mshe1bfeed8733aa64p1f5521jsnbac20444ea63',
+    'x-rapidapi-key': 'd4f67352f9mshe1bfeed8733aa64p1f5521jsnbac20444ea63', // 🔸 thay bằng key của bạn
     'x-rapidapi-host': 'tiktok-scraper7.p.rapidapi.com'
   }
 };
@@ -123,9 +117,20 @@ fetch(url, options)
   .then(res => res.json())
   .then(data => {
     const user = data.userInfo;
-    console.log("Followers:", user.stats.followerCount);
-    console.log("Hearts:", user.stats.heartCount);
+    if (user && user.stats) {
+      const followers = user.stats.followerCount;
+      const hearts = user.stats.heartCount;
+
+      document.getElementById("tiktok-followers").textContent = followers.toLocaleString();
+      document.getElementById("tiktok-likes").textContent = hearts.toLocaleString();
+
+      console.log("✅ TikTok stats loaded:", { followers, hearts });
+    } else {
+      console.warn("⚠️ Không tìm thấy dữ liệu user.stats:", data);
+    }
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error("❌ Lỗi khi lấy API TikTok:", err));
+
+
 
 
