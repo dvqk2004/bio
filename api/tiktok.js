@@ -14,19 +14,14 @@ export default async function handler(req, res) {
     const response = await fetch(url, options);
     const data = await response.json();
 
-    // Kiểm tra dữ liệu trả về hợp lệ
     if (data?.userInfo?.stats) {
       const { followerCount, heartCount } = data.userInfo.stats;
-      res.status(200).json({
-        followers: followerCount,
-        hearts: heartCount,
-      });
+      res.status(200).json({ followers: followerCount, hearts: heartCount });
     } else {
-      console.error("⚠️ Dữ liệu không hợp lệ:", data);
       res.status(500).json({ error: "Invalid TikTok data" });
     }
-  } catch (error) {
-    console.error("❌ Lỗi khi fetch API TikTok:", error);
+  } catch (err) {
+    console.error("API Error:", err);
     res.status(500).json({ error: "Failed to fetch TikTok data" });
   }
 }
