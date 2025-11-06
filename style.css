@@ -1019,5 +1019,6 @@ body {
   font-weight: 400;
   letter-spacing: 0.3px;
 }
-
-
+.social-card {
+  border-radius: 12px !important; /* thay bo tròn bằng bo nhẹ (vuông góc kiểu cũ) */
+}
